@@ -1,27 +1,27 @@
-import React,{ useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
-import api from './services/api'
+import api from "./services/api";
 
 import "./styles.css";
 
 function App() {
-  const [repositories, setRepositories] = useState([])
+  const [repositories, setRepositories] = useState([]);
 
   useEffect(() => {
     async function loadRepositories() {
-      const response = await api.get('repositories')
+      const response = await api.get("repositories");
 
-      setRepositories(response.data)
+      setRepositories(response.data);
     }
 
-    loadRepositories()
-  }, [])
+    loadRepositories();
+  }, []);
 
   async function handleAddRepository() {
-    const response = await api.post('repositories', {
-      title: 'GoBarber 2.0',
-      techs: ['ReactJS', 'NodeJS', 'React Native'],
-      url: 'https://github.com/ltavernard/gobarber2.0',
+    const response = await api.post("repositories", {
+      title: "GoBarber 2.0",
+      techs: ["ReactJS", "NodeJS", "React Native"],
+      url: "https://github.com/ltavernard/gobarber2.0",
     });
 
     setRepositories([...repositories, response.data]);
@@ -30,13 +30,13 @@ function App() {
   async function handleRemoveRepository(id) {
     await api.delete(`repositories/${id}`);
 
-    setRepositories(repositories.filter(repository => repository.id !== id));
+    setRepositories(repositories.filter((repository) => repository.id !== id));
   }
 
   return (
     <div>
       <ul data-testid="repository-list">
-        {repositories.map(repository => (
+        {repositories.map((repository) => (
           <li key={repository.id}>
             {repository.title}
 
@@ -45,7 +45,6 @@ function App() {
             </button>
           </li>
         ))}
-        
       </ul>
 
       <button onClick={handleAddRepository}>Adicionar</button>
